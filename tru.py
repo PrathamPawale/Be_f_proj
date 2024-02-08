@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 import streamlit as st
 import pydeck as pdk
-import datetime
+from datetime import datetime 
 
 st.header('3D Visualization of Location Clusters')
 
@@ -46,14 +46,14 @@ for label in labels:
 cluster_info = []
 
 for cluster_label, count, centroid in zip(range(cls_no), cluster_counts, centroids):
-    cluster_info.append([count,centroid.tolist()])
+    cluster_info.append([count,centroid.tolist()[1],centroid.tolist()[0]])
 
 cl_inf=pd.DataFrame(cluster_info)  #converted data into datframe
 
 
 
-x = datetime.datetime.now()
-st.subheader("Data Updated on : ",x)
+xt = datetime.now()
+st.subheader("Data Updated on : ",xt)
 #####add feature to --like count ,date etc
 
 
@@ -68,7 +68,7 @@ layer = pdk.Layer(
     radius_min_pixels=5,
     radius_max_pixels=15,
     line_width_min_pixels=1,
-    get_position="1",
+    get_position=['1','2'],
     #get_radius="exits_radius",
     get_fill_color=[200, 140, 120],
     get_line_color=[0, 0, 0],
