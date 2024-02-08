@@ -38,7 +38,7 @@ kmeans.fit(X)
 
 centroids = kmeans.cluster_centers_
 labels = kmeans.labels_
-cluster_counts = np.zeros(num_clusters, dtype=int)
+cluster_counts = np.zeros(cls_no, dtype=int)
 
 for label in labels:
     cluster_counts[label] += 1
