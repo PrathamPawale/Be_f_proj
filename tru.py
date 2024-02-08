@@ -16,7 +16,7 @@ connection = pymongo.MongoClient(MONGO_URL)
 
 database = connection.get_database()
 collection = database[COLLECTION_NAME]
-print("Connected to MongoDB Atlas")
+st.write("Connected to MongoDB Atlas")
 
 
 #database connection done=======================
