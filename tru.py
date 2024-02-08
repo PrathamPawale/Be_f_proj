@@ -45,7 +45,7 @@ for label in labels:
 
 cluster_info = []
 
-for cluster_label, count, centroid in zip(range(num_clusters), cluster_counts, centroids):
+for cluster_label, count, centroid in zip(range(cls_no), cluster_counts, centroids):
     cluster_info.append([count,centroid.tolist()])
 
 cl_inf=pd.DataFrame(cluster_info)  #converted data into datframe
