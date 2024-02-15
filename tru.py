@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 import streamlit as st
 import pydeck as pdk
+import math
 from datetime import datetime 
 
 st.header('3D Visualization of Location Clusters')
@@ -25,12 +26,35 @@ st.write("Connected to MongoDB Atlas")
 all_data = collection.find()
 lat=[]
 long=[]
+sos=[]
 for data in all_data:
     lat.append(data["latitude"])
     long.append(data["longitude"])
+    sos.append(data["sos"])
+#live sos active.....
+daf=pd.DataFrame({"lat":lat,"long":long,"sos":sos})
+if st.button("Live S.O.S"):
+    layer01 = pdk.Layer(
+    "ScatterplotLayer",
+    daf,
+    pickable=True,
+    opacity=0.8,
+    stroked=True,
+    filled=True,
+    radius_scale=6,
+    radius_min_pixels=1,
+    radius_max_pixels=100,
+    line_width_min_pixels=1,
+    get_position=daf[["lat","long"]],
+    get_radius="exits_radius",
+    get_fill_color=[255, 140, 0],
+    get_line_color=[0, 0, 0],)
+    view_state = pdk.ViewState(latitude=37.7749295, longitude=-122.4194155, zoom=10, bearing=0, pitch=0)
+    r01 = pdk.Deck(layers=[layer], initial_view_state=view_state)  #tooltip={"text": "{name}\n{address}"}
+    #r.to_html("scatterplot_layer.html")
+    st.write(r01)
 
 
-daf=pd.DataFrame({"lat":lat,"long":long})
 X=np.array(daf)
 cls_no=5  ## no. of clusters
 kmeans=KMeans(n_clusters=cls_no)
