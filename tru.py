@@ -33,10 +33,11 @@ for data in all_data:
     sos.append(data["sos"])
 #live sos active.....
 daf=pd.DataFrame({"lat":lat,"long":long,"sos":sos})
+X=np.array(daf)
 if st.button("Live S.O.S"):
     layer01 = pdk.Layer(
     "ScatterplotLayer",
-    daf,
+    X,
     pickable=True,
     opacity=0.8,
     stroked=True,
@@ -45,7 +46,7 @@ if st.button("Live S.O.S"):
     radius_min_pixels=1,
     radius_max_pixels=100,
     line_width_min_pixels=1,
-    get_position=daf[["lat","long"]],
+    get_position=X[:,(0,1)],
     get_radius="exits_radius",
     get_fill_color=[255, 140, 0],
     get_line_color=[0, 0, 0],)
@@ -55,7 +56,7 @@ if st.button("Live S.O.S"):
     st.write(r01)
 
 
-X=np.array(daf)
+
 cls_no=5  ## no. of clusters
 kmeans=KMeans(n_clusters=cls_no)
 kmeans.fit(X)
