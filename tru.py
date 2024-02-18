@@ -51,7 +51,11 @@ if st.button("Live S.O.S"):
     get_fill_color=[200, 140, 120],
     get_line_color=[0, 0, 0],)
     #r.to_html("scatterplot_layer.html")
-    st.write(r01)
+    view_state = pdk.ViewState(longitude=78.348516,
+    latitude=22.824289, zoom=10, bearing=0, pitch=0)
+    r = pdk.Deck(layers=[layer],tooltip=tooltip,initial_view_state=view_state)
+    st.write(r)
+    
 
 
 
