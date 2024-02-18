@@ -53,7 +53,7 @@ if st.button("Live S.O.S"):
     #r.to_html("scatterplot_layer.html")
     view_state = pdk.ViewState(longitude=78.348516,
     latitude=22.824289, zoom=10, bearing=0, pitch=0)
-    r = pdk.Deck(layers=[layer],tooltip=tooltip,initial_view_state=view_state)
+    r = pdk.Deck(layers=[layer],initial_view_state=view_state)
     st.write(r)
     
 
