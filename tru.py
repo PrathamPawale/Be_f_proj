@@ -32,7 +32,7 @@ for data in all_data:
     long.append(data["longitude"])
     sos.append(data["sos"])
 #live sos active.....
-daf=pd.DataFrame({"lat":lat,"long":long,"sos":sos})
+daf=pd.DataFrame({"lat":long,"long":lat,"sos":sos})
 Xs=np.array(daf[daf["sos"]=="true"][["lat","long"]])
 if st.button("Live S.O.S"):
     layer = pdk.Layer(
