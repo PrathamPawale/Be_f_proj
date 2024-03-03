@@ -61,7 +61,8 @@ if st.button("Live S.O.S"):
 
 cls_no=5  ## no. of clusters
 kmeans=KMeans(n_clusters=cls_no)
-X=np.array(daf[:,0:1])
+#X=np.array(daf[:,0:1])
+X=np.array(daf.iloc[:, 0:2])
 kmeans.fit(X)
 
 centroids = kmeans.cluster_centers_
@@ -74,13 +75,13 @@ for label in labels:
 cluster_info = []
 
 for cluster_label, count, centroid in zip(range(cls_no), cluster_counts, centroids):
-    cluster_info.append([count,centroid.tolist()[1],centroid.tolist()[0]])
+    cluster_info.append([centroid.tolist()[0],centroid.tolist()[1],count])
 
 cl_inf=pd.DataFrame(cluster_info)  #converted data into datframe
 
 
 
-xt = datetime.now()
+xt = str(datetime.now())
 st.subheader("Data Updated on : ",xt)
 #####add feature to --like count ,date etc
 
@@ -96,11 +97,10 @@ layer = pdk.Layer(
     radius_min_pixels=5,
     radius_max_pixels=15,
     line_width_min_pixels=1,
-    get_position=[['1','2']],
+    get_position=['0', '1'],
     #get_radius="exits_radius",
     get_fill_color=[200, 140, 120],
     get_line_color=[0, 0, 0],
-    
 )
 
 
