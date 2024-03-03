@@ -32,24 +32,10 @@ for data in all_data:
     long.append(data["longitude"])
     sos.append(data["sos"])
 #live sos active.....
-daf=pd.DataFrame({"lat":long,"long":lat,"sos":sos})
+daf=pd.DataFrame({"lat":lat,"long":long,"sos":sos})
 Xs=np.array(daf[daf["sos"]=="true"][["lat","long"]])
 if st.button("Live S.O.S"):
-    layer = pdk.Layer(
-    "ScatterplotLayer",
-    daf,
-    pickable=True,
-    opacity=0.8,
-    stroked=True,
-    filled=True,
-    radius_scale=300,
-    radius_min_pixels=5,
-    radius_max_pixels=15,
-    line_width_min_pixels=1,
-    get_position=['long', 'lat'],
-    #get_radius="exits_radius",
-    get_fill_color=[200, 140, 120],
-    get_line_color=[0, 0, 0],)
+    layer = pdk.Layer("ScatterplotLayer",daf[daf["sos"]=="true"],pickable=True,opacity=0.8,stroked=True,filled=True,radius_scale=300,radius_min_pixels=5,radius_max_pixels=15,line_width_min_pixels=1,get_position=['lat', 'long'],get_fill_color=[200, 140, 120],get_line_color=[0, 0, 0],)
     #r.to_html("scatterplot_layer.html")
     view_state = pdk.ViewState(longitude=78.348516,
     latitude=22.824289, zoom=10, bearing=0, pitch=0)
