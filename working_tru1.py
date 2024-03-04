@@ -50,9 +50,9 @@ if data_points:
     st.pydeck_chart(pdk.Deck(
         map_style=None,
         initial_view_state=pdk.ViewState(
-            latitude=74.14,
-            longitude=18.5,
-            zoom=11,
+            latitude=18.5,
+            longitude=74.14,
+            zoom=8,
             pitch=50,
         ),
         layers=[
