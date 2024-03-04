@@ -41,9 +41,9 @@ for data in all_data:
 
 # Plotting the data using Pydeck
 if data_points:
-    
     df = pd.DataFrame(data_points, columns=["latitude", "longitude", "sos"])
-    st.subheader("Map of Data Points")
+if st.button("Live S.O.S"):    
+    st.subheader("Live People Locations")
     chart_data = pd.DataFrame(
    np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
    columns=['lat', 'lon'])
@@ -75,37 +75,51 @@ if data_points:
             ),
         ],
     ))
-    #st.map(data=df, color='#33ff33')
+#st.map(data=df, color='#33ff33')
 
     
     # Cluster the data using KMeans
-    cls_no = 5
-    kmeans = KMeans(n_clusters=cls_no)
-    X = np.array(df[["latitude", "longitude"]])
-    kmeans.fit(X)
+cls_no = 5
+kmeans = KMeans(n_clusters=cls_no)
+X = np.array(df[["latitude", "longitude"]])
+kmeans.fit(X)
+centroids = kmeans.cluster_centers_
+labels = kmeans.labels_
+cluster_counts = np.zeros(cls_no, dtype=int)
 
-    # Add a button to update data
-    if st.button("Update Data"):
-        all_data = collection.find()
-        updated_data_points = []
-        sos_counts = {"true": 0, "false": 0}
-        for data in all_data:
-            try:
-                latitude = float(data["latitude"])
-                longitude = float(data["longitude"])
-                sos = data["sos"]
-                updated_data_points.append((latitude, longitude, sos))
-                sos_counts[sos] += 1
-            except KeyError:
-                st.warning("Latitude, Longitude, or S.O.S key is missing in one or more documents.")
-        if updated_data_points:
-            df_updated = pd.DataFrame(updated_data_points, columns=["latitude", "longitude", "sos"])
-            st.subheader("Updated Map of Data Points")
-            st.map(df_updated)
+for label in labels:
+    cluster_counts[label] += 1
+
+cluster_info = []
+
+for cluster_label, count, centroid in zip(range(cls_no), cluster_counts, centroids):
+    cluster_info.append([centroid.tolist()[0],centroid.tolist()[1],count])
+
+cl_inf=pd.DataFrame(cluster_info,columns=["latitude", "longitude", "count"])    
+st.subheader("Cluster Centers:")
+st.map(cl_inf)
+# Add a button to update data
+if st.button("Update Data"):
+    all_data = collection.find()
+    updated_data_points = []
+    sos_counts = {"true": 0, "false": 0}
+    for data in all_data:
+        try:
+            latitude = float(data["latitude"])
+            longitude = float(data["longitude"])
+            sos = data["sos"]
+            updated_data_points.append((latitude, longitude, sos))
+            sos_counts[sos] += 1
+        except KeyError:
+            st.warning("Latitude, Longitude, or S.O.S key is missing in one or more documents.")
+    if updated_data_points:
+        df_updated = pd.DataFrame(updated_data_points, columns=["latitude", "longitude", "sos"])
+        st.subheader("Updated Map of Data Points")
+        st.map(df_updated)
 
     # Display the clusters
-    st.subheader("Cluster Centers:")
-    st.write(kmeans.cluster_centers_)
+    
+    #st.write(kmeans.cluster_centers_)
 
     # Analytical Panel
     st.sidebar.subheader("Analytical Panel")
