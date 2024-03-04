@@ -40,7 +40,7 @@ print("S.O.S Counts:", sos_counts)
 if data_points:
     df = pd.DataFrame(data_points, columns=["latitude", "longitude", "sos"])
     st.subheader("Map of Data Points")
-    st.map(df)
+    st.map(df,size=20, color='#33FF33')
 
     # Cluster the data using KMeans
     cls_no = 5
