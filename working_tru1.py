@@ -15,8 +15,9 @@ connection = pymongo.MongoClient(MONGO_URL)
 database = connection.get_database()
 collection = database[COLLECTION_NAME]
 st.header('3D Visualization of Location Clusters')
-st.write("Connected to MongoDB Atlas")
 xt = str(datetime.now())
+st.write("Connected to MongoDB Atlas","                                             ","Data Updated on : ",xt)
+
 st.write("Data Updated on : ",xt)
 # Fetch data from MongoDB
 all_data = collection.find()
