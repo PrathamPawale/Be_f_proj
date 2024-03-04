@@ -16,7 +16,7 @@ database = connection.get_database()
 collection = database[COLLECTION_NAME]
 st.header('3D Visualization of Location Clusters')
 xt = str(datetime.now())
-st.write("Connected to MongoDB Atlas","                                      /t /t/t/t/t/t/t/t       ","Data Updated on : ",xt)
+st.write("Connected to MongoDB Atlas","\t\t\t\t\t","Data Updated on : ",xt)
 
 #st.write("Data Updated on : ",xt)
 # Fetch data from MongoDB
@@ -50,8 +50,8 @@ if data_points:
     st.pydeck_chart(pdk.Deck(
         map_style=None,
         initial_view_state=pdk.ViewState(
-            latitude=37.76,
-            longitude=-122.4,
+            latitude=74.14,
+            longitude=-18.5,
             zoom=11,
             pitch=50,
         ),
