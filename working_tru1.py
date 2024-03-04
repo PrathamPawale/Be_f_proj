@@ -33,15 +33,48 @@ for data in all_data:
         st.warning("Latitude, Longitude, or S.O.S key is missing in one or more documents.")
 
 # Debugging: Print data_points and sos_counts
-print("Data Points:", data_points)
-print("S.O.S Counts:", sos_counts)
+#print("Data Points:", data_points)
+#print("S.O.S Counts:", sos_counts)
 
 # Plotting the data using Pydeck
 if data_points:
+    
     df = pd.DataFrame(data_points, columns=["latitude", "longitude", "sos"])
     st.subheader("Map of Data Points")
-    st.map(data=df, color='#33ff33')
+    chart_data = pd.DataFrame(
+   np.random.randn(1000, 2) / [50, 50] + [37.76, -122.4],
+   columns=['lat', 'lon'])
+    st.pydeck_chart(pdk.Deck(
+        map_style=None,
+        initial_view_state=pdk.ViewState(
+            latitude=37.76,
+            longitude=-122.4,
+            zoom=11,
+            pitch=50,
+        ),
+        layers=[
+            pdk.Layer(
+               'HexagonLayer',
+               data=df,
+               get_position='[longitude, latitude]',
+               radius=200,
+               elevation_scale=4,
+               elevation_range=[0, 1000],
+               pickable=True,
+               extruded=True,
+            ),
+            pdk.Layer(
+                'ScatterplotLayer',
+                data=df,
+                get_position='[lon, lat]',
+                get_color='[200, 30, 0, 160]',
+                get_radius=200,
+            ),
+        ],
+    ))
+    #st.map(data=df, color='#33ff33')
 
+    
     # Cluster the data using KMeans
     cls_no = 5
     kmeans = KMeans(n_clusters=cls_no)
