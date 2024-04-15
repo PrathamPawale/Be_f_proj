@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # MongoDB connection
 MONGO_URL = "mongodb+srv://upendrataral21:safety123@cluster0.x0pyhch.mongodb.net/avert?retryWrites=true&w=majority"
-COLLECTION_NAME = "avert_data"
+COLLECTION_NAME = "pune_sos"
 connection = pymongo.MongoClient(MONGO_URL)
 
 database = connection.get_database()
